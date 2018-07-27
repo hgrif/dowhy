@@ -74,7 +74,7 @@ class CausalEstimator:
             null_estimates[i] = est.value
 
         sorted_null_estimates = np.sort(null_estimates)
-        self.logger.debug("Null estimates: {0}".format(sorted_null_estimates))
+        self.logger.debug("Null estimates: %s", sorted_null_estimates)
         median_estimate = sorted_null_estimates[int(num_simulations / 2)]
         # Doing a two-sided test
         if estimate.value > median_estimate:

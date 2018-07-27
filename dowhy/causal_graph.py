@@ -12,12 +12,16 @@ class CausalGraph:
                  common_cause_names=None,
                  instrument_names=None,
                  observed_node_names=None):
+
         self.treatment_name = treatment_name
         self.outcome_name = outcome_name
         self.fullname = "_".join([self.treatment_name,
                                   self.outcome_name,
                                   str(common_cause_names),
                                   str(instrument_names)])
+
+        self.logger = logging.getLogger(__name__)
+
         if graph is None:
             self._graph = pgv.AGraph(strict=True, directed=True)
             self._graph = self.build_graph(common_cause_names,
@@ -28,7 +32,6 @@ class CausalGraph:
         self._graph = nx.drawing.nx_agraph.from_agraph(self._graph)
         self._graph = self.add_node_attributes(observed_node_names)
         self._graph = self.add_unobserved_common_cause(observed_node_names)
-        self.logger = logging.getLogger(__name__)
 
     def view_graph(self, layout="dot"):
         agraph = nx.drawing.nx_agraph.to_agraph(self._graph)

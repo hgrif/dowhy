@@ -13,7 +13,7 @@ class RandomCommonCause(CausalRefuter):
     def refute_estimate(self):
         num_rows = self._data.shape[0]
         new_data = self._data.assign(w_random=np.random.randn(num_rows))
-        self.logger.debug(new_data[0:10])
+        self.logger.debug('%s', new_data[0:10])
         new_backdoor_variables = self._target_estimand.backdoor_variables + ['w_random']
         estimator_class = self._estimate.params['estimator_class']
         identified_estimand = copy.deepcopy(self._target_estimand)

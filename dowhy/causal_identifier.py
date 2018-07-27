@@ -20,7 +20,8 @@ class CausalIdentifier:
         causes_of_treatment = self._graph.get_ancestors(self.treatment_name)
         causes_of_outcome = self._graph.get_ancestors(self.outcome_name)
         common_causes = set(causes_of_treatment).intersection(causes_of_outcome)
-        self.logger.info("Common causes of treatment and outcome:" + str(common_causes))
+        self.logger.info("Common causes of treatment and outcome: %s",
+                         common_causes)
         if self._graph.all_observed(common_causes):
             print("All common causes are observed. Causal effect can be identified.")
         else:
@@ -37,14 +38,14 @@ class CausalIdentifier:
             self._graph.outcome_name, observed_common_causes
         )
 
-        self.logger.debug("Identified expression = " + str(backdoor_estimand_expr))
+        self.logger.debug("Identified expression = %s", backdoor_estimand_expr)
         estimands_dict["backdoor"] = backdoor_estimand_expr
 
         # Now checking if there is also a valid iv estimand
         instrument_names = self._graph.get_instruments(self.treatment_name,
                                                        self.outcome_name)
-        self.logger.info("Instrumental variables for treatment and outcome:" +
-                         str(instrument_names))
+        self.logger.info(("Instrumental variables for treatment and "
+                          "outcome: %s"), instrument_names)
         if len(instrument_names) > 0:
             iv_estimand_expr = self.construct_iv_estimand(
                 self.estimand_type,
@@ -52,7 +53,7 @@ class CausalIdentifier:
                 self._graph.outcome_name,
                 instrument_names
             )
-            self.logger.debug("Identified expression = " + str(iv_estimand_expr))
+            self.logger.debug("Identified expression = %s", iv_estimand_expr)
             estimands_dict["iv"] = iv_estimand_expr
         else:
             estimands_dict["iv"] = None
