@@ -18,7 +18,7 @@ class RegressionDiscontinuityEstimator(CausalEstimator):
         self.rd_variable = self._data[self.rd_variable_name]
 
         self.symbolic_estimator = self.construct_symbolic_estimator(self._target_estimand)
-        self.logger.info(self.symbolic_estimator)
+        self.logger.info('%s', self.symbolic_estimator)
 
     def _estimate_effect(self):
         upper_limit = self.rd_threshold_value + self.rd_bandwidth

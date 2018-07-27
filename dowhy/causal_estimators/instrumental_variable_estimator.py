@@ -15,7 +15,7 @@ class InstrumentalVariableEstimator(CausalEstimator):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.logger.debug("Instrumental Variables used:" +
+        self.logger.debug("Instrumental Variables used: %s",
                           ",".join(self._target_estimand.instrumental_variables))
         self._instrument_names = self._target_estimand.instrumental_variables
 
@@ -25,14 +25,14 @@ class InstrumentalVariableEstimator(CausalEstimator):
             self.estimating_instrument = self._instruments[self._instrument_names[0]]
         else:
             self.estimating_instrument = self._data[self.iv_instrument_name]
-        self.logger.info("INFO: Using Instrumental Variable Estimator")
+        self.logger.info("Using Instrumental Variable Estimator")
 
         self.symbolic_estimator = self.construct_symbolic_estimator(self._target_estimand)
-        self.logger.info(self.symbolic_estimator)
+        self.logger.info("%s", self.symbolic_estimator)
 
     def _estimate_effect(self):
         instrument = self.estimating_instrument
-        self.logger.debug("Instrument Variable values: {0}".format(instrument))
+        self.logger.debug("Instrument Variable values: %s", instrument)
         num_unique_values = len(np.unique(instrument))
         instrument_is_binary = (num_unique_values <= 2)
         if instrument_is_binary:

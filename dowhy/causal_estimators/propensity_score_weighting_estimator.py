@@ -14,13 +14,13 @@ class PropensityScoreWeightingEstimator(CausalEstimator):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.logger.debug("Back-door variables used:" +
+        self.logger.debug("Back-door variables used: %s",
                           ",".join(self._target_estimand.backdoor_variables))
         self._observed_common_causes_names = self._target_estimand.backdoor_variables
         self._observed_common_causes = self._data[self._observed_common_causes_names]
-        self.logger.info("INFO: Using Propensity Score Weighting Estimator")
+        self.logger.info("Using Propensity Score Weighting Estimator")
         self.symbolic_estimator = self.construct_symbolic_estimator(self._target_estimand)
-        self.logger.info(self.symbolic_estimator)
+        self.logger.info("%s", self.symbolic_estimator)
         self.weighting_scheme = 'ips_weight'  # 'itps_weight' 'ips_weight' 'nips_weight'
         self.min_ps_score = 0.05
         self.max_ps_score = 0.95

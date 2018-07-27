@@ -9,13 +9,13 @@ class PropensityScoreMatchingEstimator(CausalEstimator):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.logger.debug("Back-door variables used:" +
+        self.logger.debug("Back-door variables used: %s",
                           ",".join(self._target_estimand.backdoor_variables))
         self._observed_common_causes_names = self._target_estimand.backdoor_variables
         self._observed_common_causes = self._data[self._observed_common_causes_names]
-        self.logger.info("INFO: Using Propensity Score Matching Estimator")
+        self.logger.info("Using Propensity Score Matching Estimator")
         self.symbolic_estimator = self.construct_symbolic_estimator(self._target_estimand)
-        self.logger.info(self.symbolic_estimator)
+        self.logger.info("%s", self.symbolic_estimator)
 
     def _estimate_effect(self):
         psmodel = linear_model.LinearRegression()

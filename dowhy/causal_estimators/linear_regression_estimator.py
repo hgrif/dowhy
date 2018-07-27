@@ -16,11 +16,11 @@ class LinearRegressionEstimator(CausalEstimator):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.logger.debug("Back-door variables used:" +
+        self.logger.debug("Back-door variables used: %s",
                           ",".join(self._target_estimand.backdoor_variables))
         self._observed_common_causes_names = self._target_estimand.backdoor_variables
         self._observed_common_causes = self._data[self._observed_common_causes_names]
-        self.logger.info("INFO: Using Linear Regression Estimator")
+        self.logger.info("Using Linear Regression Estimator")
         self.symbolic_estimator = self.construct_symbolic_estimator(self._target_estimand)
         self.logger.info(self.symbolic_estimator)
 
@@ -31,7 +31,7 @@ class LinearRegressionEstimator(CausalEstimator):
         model = linear_model.LinearRegression()
         model.fit(features, self._outcome)
         coefficients = model.coef_
-        self.logger.debug("Coefficients of the fitted linear model: " +
+        self.logger.debug("Coefficients of the fitted linear model: %s",
                           ",".join(map(str, coefficients)))
         estimate = CausalEstimate(estimate=coefficients[0],
                                   target_estimand=self._target_estimand,

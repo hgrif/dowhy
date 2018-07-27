@@ -50,16 +50,13 @@ class CausalModel:
         self._treatment = treatment
         self._outcome = outcome
         self._estimand_type = estimand_type
-        if 'logging_level' in kwargs:
-            logging.basicConfig(level=kwargs['logging_level'])
-        else:
-            logging.basicConfig(level=logging.INFO)
 
-        # TODO: move the logging level argument to a json file. Tue 20 Feb 2018 06:56:27 PM DST
         self.logger = logging.getLogger(__name__)
 
         if graph is None:
-            self.logger.warning("Causal Graph not provided. DoWhy will construct a graph based on data inputs.")
+            self.logger.warning("Causal Graph not provided. "
+                                "DoWhy will construct a graph based on "
+                                "data inputs.")
             self._common_causes = common_causes
             self._instruments = instruments
             if common_causes is not None and instruments is not None:
@@ -141,7 +138,8 @@ class CausalModel:
 
         # Check if estimator's target estimand is identified
         if identified_estimand.estimands[identifier_name] is None:
-            self.logger.warning("No valid identified estimand for using instrumental variables method")
+            self.logger.warning("No valid identified estimand for using "
+                                "instrumental variables method")
             estimate = CausalEstimate(None, None, None)
         else:
             causal_estimator = causal_estimator_class(
