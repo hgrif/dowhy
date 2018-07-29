@@ -17,9 +17,9 @@ class PropensityScoreStratificationEstimator(CausalEstimator):
                           ",".join(self._target_estimand.backdoor_variables))
         self._observed_common_causes_names = self._target_estimand.backdoor_variables
         self._observed_common_causes = self._data[self._observed_common_causes_names]
-        self.logger.info("INFO: Using Propensity Score Stratification Estimator")
+        self.logger.info("Using Propensity Score Stratification Estimator")
         self.symbolic_estimator = self.construct_symbolic_estimator(self._target_estimand)
-        self.logger.info(self.symbolic_estimator)
+        self.logger.info("%s", self.symbolic_estimator)
 
         self.numStrata = 50
         self.clippingThreshold = 10
